@@ -5,116 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Color Mixer Pro</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --secondary: #f1f5f9;
-      --accent: #06b6d4;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #f9fafb;
+      --accent: #14b8a6;
+      --success: #22c55e;
+      --error: #ef4444;
+      --text-dark: #111827;
+      --text-light: #6b7280;
     }
     
     * {
       font-family: 'Inter', sans-serif;
+      box-sizing: border-box;
     }
     
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    body {
+      background: #f3f4f6;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
     }
     
     .color-swatch {
-      position: relative;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
       cursor: pointer;
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 0.5rem;
       border: 2px solid transparent;
     }
     
     .color-swatch:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     
     .color-swatch.active {
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
     
     .preset-palette {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+      gap: 0.5rem;
     }
     
     .slider-modern {
       -webkit-appearance: none;
       appearance: none;
-      height: 8px;
-      border-radius: 4px;
-      background: linear-gradient(90deg, #e2e8f0 0%, var(--primary) 100%);
+      height: 0.5rem;
+      border-radius: 0.25rem;
+      background: #e5e7eb;
       outline: none;
     }
     
     .slider-modern::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 1.25rem;
+      height: 1.25rem;
       border-radius: 50%;
       background: var(--primary);
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-      transition: all 0.2s;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
     
-    .slider-modern::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.6);
-    }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .card-shadow {
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      transition: all 0.3s;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
-    }
-    
-    .floating-action {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 1000;
-    }
-    
-    .color-history-item {
+    .slider-modern::-moz-range-thumb {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: var(--primary);
       cursor: pointer;
-      transition: all 0.2s;
-      border-radius: 8px;
-      border: 2px solid transparent;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
     
-    .color-history-item:hover {
+    .btn {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .input-modern {
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    
+    .input-modern:focus {
       border-color: var(--primary);
-      transform: scale(1.05);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+    
+    .result-display {
+      min-height: 10rem;
+      border-radius: 0.5rem 0.5rem 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
     }
     
     .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
+      animation: fadeIn 0.5s ease-out;
     }
     
     @keyframes fadeIn {
@@ -122,679 +142,437 @@
       to { opacity: 1; transform: translateY(0); }
     }
     
-    .toast-show {
-      transform: translateY(0) !important;
-      opacity: 1 !important;
-    }
-    
-    .toast-hide {
-      transform: translateY(100%) !important;
-      opacity: 0 !important;
+    .toast {
+      transition: all 0.3s ease;
+      border-radius: 0.5rem;
     }
   </style>
 </head>
-<body class="gradient-bg min-h-screen py-8 px-4">
-  <!-- Main Container -->
-  <div class="max-w-6xl mx-auto">
-    
-    <!-- Header Section -->
+<body class="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
     <header class="text-center mb-8 fade-in">
-      <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4 shadow-lg">
-        <span class="text-2xl">🎨</span>
-      </div>
-      <h1 class="text-4xl font-bold text-white mb-2">Color Mixer Pro</h1>
-      <p class="text-white/80 text-lg">Professional color mixing and palette generation</p>
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">Color Mixer Pro</h1>
+      <p class="text-gray-600 text-base">Create and save custom colors with ease</p>
     </header>
 
-    <!-- Main Grid Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <!-- Left Panel - Controls -->
-      <div class="lg:col-span-2 space-y-6">
-        
-        <!-- Base Color Section -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-indigo-500 rounded-full mr-3"></span>
-            Base Color
-          </h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Color Picker</label>
-              <div class="flex gap-3 items-center">
-                <input type="color" id="baseColorPicker" value="#ff6b6b" 
-                       class="w-16 h-16 rounded-xl border-0 cursor-pointer shadow-lg" />
-                <div class="flex-1">
-                  <input type="text" id="baseColorHex" value="#ff6b6b" maxlength="7" 
-                         class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                         placeholder="#ff6b6b" />
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Quick Presets</label>
-              <div class="preset-palette">
-                <div class="color-swatch w-10 h-10" style="background: #ff6b6b" data-color="#ff6b6b" title="Red"></div>
-                <div class="color-swatch w-10 h-10" style="background: #4ecdc4" data-color="#4ecdc4" title="Teal"></div>
-                <div class="color-swatch w-10 h-10" style="background: #45b7d1" data-color="#45b7d1" title="Blue"></div>
-                <div class="color-swatch w-10 h-10" style="background: #96ceb4" data-color="#96ceb4" title="Green"></div>
-                <div class="color-swatch w-10 h-10" style="background: #ffeaa7" data-color="#ffeaa7" title="Yellow"></div>
-                <div class="color-swatch w-10 h-10" style="background: #fd79a8" data-color="#fd79a8" title="Pink"></div>
-                <div class="color-swatch w-10 h-10" style="background: #a29bfe" data-color="#a29bfe" title="Purple"></div>
-                <div class="color-swatch w-10 h-10" style="background: #fd8c73" data-color="#fd8c73" title="Orange"></div>
-              </div>
-            </div>
+    <!-- Main Layout -->
+    <div class="space-y-6">
+      <!-- Color Selection -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Base Color -->
+        <div class="card fade-in">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-paint-brush text-primary mr-2"></i>
+            <h2 class="text-lg font-semibold text-gray-800">Base Color</h2>
           </div>
-        </div>
-
-        <!-- Mix Color Section -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-cyan-500 rounded-full mr-3"></span>
-            Mix With
-          </h2>
-          
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Primary Colors</label>
-              <div class="grid grid-cols-4 gap-2">
-                <button class="color-swatch h-12 active" style="background:#ff0000;" data-mix="#ff0000" title="Red"></button>
-                <button class="color-swatch h-12" style="background:#00ff00;" data-mix="#00ff00" title="Green"></button>
-                <button class="color-swatch h-12" style="background:#0000ff;" data-mix="#0000ff" title="Blue"></button>
-                <button class="color-swatch h-12" style="background:#ffff00;" data-mix="#ffff00" title="Yellow"></button>
-                <button class="color-swatch h-12" style="background:#ff00ff;" data-mix="#ff00ff" title="Magenta"></button>
-                <button class="color-swatch h-12" style="background:#00ffff;" data-mix="#00ffff" title="Cyan"></button>
-                <button class="color-swatch h-12" style="background:#ffffff;" data-mix="#ffffff" title="White"></button>
-                <button class="color-swatch h-12" style="background:#000000;" data-mix="#000000" title="Black"></button>
-              </div>
-            </div>
-            
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Custom Mix Color</label>
-              <div class="flex gap-3 items-center">
-                <input type="color" id="customMixColor" value="#ff0000"
-                       class="w-16 h-16 rounded-xl border-0 cursor-pointer shadow-lg" />
-                <div class="flex-1">
-                  <input type="text" id="customMixHex" value="#ff0000" maxlength="7"
-                         class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                         placeholder="#ff0000" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mixing Controls -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-            Mixing Controls
-          </h2>
-          
           <div class="space-y-4">
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <label class="text-sm font-medium text-gray-700">Mix Intensity</label>
-                <span id="percentageLabel" class="text-sm font-semibold text-indigo-600">25%</span>
-              </div>
-              <input type="range" id="percentage" min="0" max="100" value="25" 
-                     class="slider-modern w-full" />
+            <div class="flex flex-col sm:flex-row gap-4">
+              <input type="color" id="baseColorPicker" value="#ff6b6b" 
+                     class="w-14 h-14 rounded-md cursor-pointer border-none shadow-sm" 
+                     aria-label="Select base color" />
+              <input type="text" id="baseColorHex" value="#ff6b6b" maxlength="7" 
+                     class="input-modern text-base" placeholder="#ff6b6b" 
+                     aria-label="Base color hex code" />
             </div>
-            
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="setPercentage(10)" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors">10%</button>
-              <button onclick="setPercentage(50)" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors">50%</button>
-              <button onclick="setPercentage(90)" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors">90%</button>
+            <div class="preset-palette">
+              <div class="color-swatch w-10 h-10 active" style="background: #ff6b6b" data-color="#ff6b6b"></div>
+              <div class="color-swatch w-10 h-10" style="background: #4ecdc4" data-color="#4ecdc4"></div>
+              <div class="color-swatch w-10 h-10" style="background: #45b7d1" data-color="#45b7d1"></div>
+              <div class="color-swatch w-10 h-10" style="background: #96ceb4" data-color="#96ceb4"></div>
             </div>
           </div>
         </div>
 
-        <!-- Result Display -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
-            Mixed Result
-          </h2>
-          
-          <div class="rounded-2xl overflow-hidden shadow-lg">
-            <div id="resultBox" class="h-48 flex items-center justify-center text-white text-2xl font-bold transition-all duration-500 relative">
+        <!-- Mix Color -->
+        <div class="card fade-in">
+          <div class="flex items-center mb-4">
+            <i class="fas fa-tint text-primary mr-2"></i>
+            <h2 class="text-lg font-semibold text-gray-800">Mix Color</h2>
+          </div>
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <input type="color" id="customMixColor" value="#ff0000" 
+                     class="w-14 h-14 rounded-md cursor-pointer border-none shadow-sm" 
+                     aria-label="Select mix color" />
+              <input type="text" id="customMixHex" value="#ff0000" maxlength="7" 
+                     class="input-modern text-base" placeholder="#ff0000" 
+                     aria-label="Mix color hex code" />
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+              <button class="color-swatch h-10 active" style="background:#ff0000;" data-mix="#ff0000"></button>
+              <button class="color-swatch h-10" style="background:#00ff00;" data-mix="#00ff00"></button>
+              <button class="color-swatch h-10" style="background:#0000ff;" data-mix="#0000ff"></button>
+              <button class="color-swatch h-10" style="background:#ffffff;border:1px solid #d1d5db;" data-mix="#ffffff"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mixing Controls -->
+      <div class="card fade-in">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-sliders text-primary mr-2"></i>
+          <h2 class="text-lg font-semibold text-gray-800">Mixing Ratio</h2>
+        </div>
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <label class="text-sm font-medium text-gray-600">Blend Intensity</label>
+            <span id="percentageLabel" class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">25%</span>
+          </div>
+          <input type="range" id="percentage" min="0" max="100" value="25" 
+                 class="slider-modern w-full" aria-label="Mix intensity slider" />
+          <div class="flex gap-3">
+            <button onclick="setPercentage(25)" class="btn flex-1">25%</button>
+            <button onclick="setPercentage(50)" class="btn flex-1">50%</button>
+            <button onclick="setPercentage(75)" class="btn flex-1">75%</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result and Actions -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Result -->
+        <div class="md:col-span-2 card fade-in">
+          <div id="resultBox" class="result-display">
+            <div class="text-center">
+              <div id="resultHex" class="text-2xl font-bold text-white drop-shadow-md">#ff35b5</div>
+              <div class="text-gray-200 text-sm">Mixed Color</div>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
               <div class="text-center">
-                <div id="resultHex" class="text-3xl font-bold mb-2">#ff35b5</div>
-                <div class="text-sm opacity-90">Mixed Color</div>
+                <div class="text-gray-600 text-sm font-medium">HEX</div>
+                <div id="hexCode" class="font-bold text-base text-gray-800">#ff35b5</div>
+              </div>
+              <div class="text-center">
+                <div class="text-gray-600 text-sm font-medium">RGB</div>
+                <div id="rgbCode" class="font-bold text-base text-gray-800">rgb(255, 53, 181)</div>
+              </div>
+              <div class="text-center">
+                <div class="text-gray-600 text-sm font-medium">HSL</div>
+                <div id="hslCode" class="font-bold text-base text-gray-800">hsl(324, 100%, 60%)</div>
               </div>
             </div>
-            
-            <div class="bg-white p-4">
-              <div class="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <div class="text-gray-600">HEX Code</div>
-                  <div id="hexCode" class="font-semibold text-lg">#ff35b5</div>
-                </div>
-                <div>
-                  <div class="text-gray-600">RGB Values</div>
-                  <div id="rgbCode" class="font-semibold text-lg">rgb(255, 53, 181)</div>
-                </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button onclick="copyToClipboard('hex')" class="btn"><i class="fas fa-copy"></i> Copy HEX</button>
+              <button onclick="copyToClipboard('rgb')" class="btn"><i class="fas fa-copy"></i> Copy RGB</button>
+              <button onclick="saveToHistory()" class="btn"><i class="fas fa-save"></i> Save Color</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions and History -->
+        <div class="space-y-6">
+          <!-- Actions -->
+          <div class="card fade-in">
+            <div class="flex items-center mb-4">
+              <i class="fas fa-bolt text-primary mr-2"></i>
+              <h3 class="text-lg font-semibold text-gray-800">Actions</h3>
+            </div>
+            <div class="space-y-3">
+              <button onclick="randomizeColors()" class="btn w-full"><i class="fas fa-shuffle"></i> Random Colors</button>
+              <button onclick="resetColors()" class="btn w-full"><i class="fas fa-undo"></i> Reset Colors</button>
+              <button onclick="exportPalette()" class="btn w-full"><i class="fas fa-download"></i> Export Palette</button>
+            </div>
+          </div>
+
+          <!-- History -->
+          <div class="card fade-in">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <i class="fas fa-history text-primary mr-2"></i>
+                <h3 class="text-lg font-semibold text-gray-800">History</h3>
               </div>
-              
-              <div class="flex gap-2 mt-4">
-                <button onclick="copyToClipboard('hex')" class="btn-primary text-white px-4 py-2 rounded-lg font-medium flex-1">
-                  📋 Copy HEX
-                </button>
-                <button onclick="copyToClipboard('rgb')" class="btn-primary text-white px-4 py-2 rounded-lg font-medium flex-1">
-                  📋 Copy RGB
-                </button>
-                <button onclick="saveToHistory()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                  💾 Save
-                </button>
-              </div>
+              <button onclick="clearHistory()" class="text-sm text-gray-500 hover:text-red-500"><i class="fas fa-trash"></i></button>
+            </div>
+            <div id="colorHistory" class="space-y-2 max-h-40 overflow-y-auto">
+              <div class="text-gray-500 text-sm text-center py-4">No colors saved</div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Right Panel - History & Info -->
-      <div class="space-y-6">
-        
-        <!-- Color History -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center justify-between">
-            <span class="flex items-center">
-              <span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>
-              Color History
-            </span>
-            <button onclick="clearHistory()" class="text-xs text-gray-500 hover:text-red-500 transition-colors">Clear</button>
-          </h2>
-          
-          <div id="colorHistory" class="space-y-2 max-h-64 overflow-y-auto">
-            <div class="text-gray-500 text-sm text-center py-4">No colors saved yet</div>
-          </div>
-        </div>
-
-        <!-- Color Information -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>
-            Color Info
-          </h2>
-          
-          <div class="space-y-3 text-sm">
-            <div class="flex justify-between">
-              <span class="text-gray-600">Hue:</span>
-              <span id="hueValue" class="font-semibold">324°</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Saturation:</span>
-              <span id="saturationValue" class="font-semibold">100%</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Lightness:</span>
-              <span id="lightnessValue" class="font-semibold">60%</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Brightness:</span>
-              <span id="brightnessValue" class="font-semibold">255</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="glass-effect rounded-2xl p-6 card-shadow fade-in">
-          <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-            <span class="w-2 h-2 bg-pink-500 rounded-full mr-3"></span>
-            Quick Actions
-          </h2>
-          
-          <div class="space-y-2">
-            <button onclick="randomizeColors()" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-purple-600 transition-all">
-              🎲 Random Mix
-            </button>
-            <button onclick="invertColors()" class="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg font-medium hover:from-blue-600 hover:to-cyan-600 transition-all">
-              🔄 Invert Colors
-            </button>
-            <button onclick="generatePalette()" class="w-full bg-gradient-to-r from-green-500 to-teal-500 text-white py-3 rounded-lg font-medium hover:from-green-600 hover:to-teal-600 transition-all">
-              🎨 Generate Palette
-            </button>
-          </div>
-        </div>
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 left-6 bg-primary text-white px-6 py-3 rounded-lg shadow-lg toast opacity-0 translate-y-10">
+      <div class="flex items-center gap-2">
+        <i id="toastIcon" class="fas fa-check-circle"></i>
+        <span id="toastMessage">Color copied to clipboard!</span>
       </div>
     </div>
-  </div>
 
-  <!-- Toast Notifications -->
-  <div id="toast" class="fixed bottom-6 left-6 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg toast-hide transition-all duration-300">
-    <div class="flex items-center">
-      <span id="toastIcon" class="mr-2">✅</span>
-      <span id="toastMessage">Color copied to clipboard!</span>
-    </div>
-  </div>
+    <script>
+      let appState = {
+        baseColor: '#ff6b6b',
+        mixColor: '#ff0000',
+        percentage: 25,
+        history: []
+      };
 
-  <!-- Floating Help Button -->
-  <div class="floating-action">
-    <button onclick="toggleHelp()" class="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all">
-      <span class="text-xl">?</span>
-    </button>
-  </div>
-
-  <script>
-    // Application State
-    let appState = {
-      baseColor: '#ff6b6b',
-      mixColor: '#ff0000',
-      percentage: 25,
-      history: []
-    };
-
-    // Initialize history from localStorage
-    try {
-      const savedHistory = localStorage.getItem('colorHistory');
-      if (savedHistory) {
-        appState.history = JSON.parse(savedHistory);
+      function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
       }
-    } catch (e) {
-      console.log('Could not load history from localStorage');
-    }
 
-    // Utility Functions
-    function hexToRgb(hex) {
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : null;
-    }
+      function rgbToHex(r, g, b) {
+        return "#" + [r, g, b].map(x => {
+          const hex = Math.round(x).toString(16);
+          return hex.length === 1 ? "0" + hex : hex;
+        }).join('');
+      }
 
-    function rgbToHex(r, g, b) {
-      return "#" + [r, g, b].map(x => {
-        const hex = Math.round(x).toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      }).join('');
-    }
+      function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h, s, l = (max + min) / 2;
 
-    function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) {
-        h = s = 0;
-      } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
+        if (max === min) {
+          h = s = 0;
+        } else {
+          const d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+          }
+          h /= 6;
         }
-        h /= 6;
+        return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
       }
-      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
-    }
 
-    function isValidHex(hex) {
-      return /^#([0-9A-F]{6})$/i.test(hex);
-    }
-
-    // Core mixing function
-    function mixColors() {
-      const base = hexToRgb(appState.baseColor);
-      const mix = hexToRgb(appState.mixColor);
-      
-      if (!base || !mix) return;
-      
-      const ratio = appState.percentage / 100;
-
-      const result = {
-        r: Math.round((1 - ratio) * base.r + ratio * mix.r),
-        g: Math.round((1 - ratio) * base.g + ratio * mix.g),
-        b: Math.round((1 - ratio) * base.b + ratio * mix.b)
-      };
-
-      const mixedHex = rgbToHex(result.r, result.g, result.b);
-      const mixedRgb = `rgb(${result.r}, ${result.g}, ${result.b})`;
-      const hsl = rgbToHsl(result.r, result.g, result.b);
-
-      // Update UI
-      const resultBox = document.getElementById('resultBox');
-      const resultHex = document.getElementById('resultHex');
-      const hexCode = document.getElementById('hexCode');
-      const rgbCode = document.getElementById('rgbCode');
-      const percentageLabel = document.getElementById('percentageLabel');
-
-      if (resultBox) resultBox.style.backgroundColor = mixedHex;
-      if (resultHex) resultHex.textContent = mixedHex;
-      if (hexCode) hexCode.textContent = mixedHex;
-      if (rgbCode) rgbCode.textContent = mixedRgb;
-      if (percentageLabel) percentageLabel.textContent = `${appState.percentage}%`;
-
-      // Update color info
-      const hueValue = document.getElementById('hueValue');
-      const saturationValue = document.getElementById('saturationValue');
-      const lightnessValue = document.getElementById('lightnessValue');
-      const brightnessValue = document.getElementById('brightnessValue');
-
-      if (hueValue) hueValue.textContent = `${hsl.h}°`;
-      if (saturationValue) saturationValue.textContent = `${hsl.s}%`;
-      if (lightnessValue) lightnessValue.textContent = `${hsl.l}%`;
-      if (brightnessValue) brightnessValue.textContent = Math.max(result.r, result.g, result.b);
-
-      return mixedHex;
-    }
-
-    // Update functions
-    function updateBaseColor(color) {
-      if (isValidHex(color)) {
-        appState.baseColor = color;
-        const picker = document.getElementById('baseColorPicker');
-        const hex = document.getElementById('baseColorHex');
-        if (picker) picker.value = color;
-        if (hex) hex.value = color;
-        mixColors();
+      function isValidHex(hex) {
+        return /^#([0-9A-F]{6})$/i.test(hex);
       }
-    }
 
-    function updateMixColor(color) {
-      if (isValidHex(color)) {
-        appState.mixColor = color;
-        const picker = document.getElementById('customMixColor');
-        const hex = document.getElementById('customMixHex');
-        if (picker) picker.value = color;
-        if (hex) hex.value = color;
-        mixColors();
-      }
-    }
-
-    function setPercentage(value) {
-      appState.percentage = value;
-      const slider = document.getElementById('percentage');
-      if (slider) slider.value = value;
-      mixColors();
-    }
-
-    // History functions
-    function saveToHistory() {
-      const hexCode = document.getElementById('hexCode');
-      if (!hexCode) return;
-      
-      const color = hexCode.textContent;
-      const timestamp = new Date().toLocaleString();
-      
-      const historyItem = {
-        color,
-        timestamp,
-        baseColor: appState.baseColor,
-        mixColor: appState.mixColor,
-        percentage: appState.percentage
-      };
-
-      appState.history.unshift(historyItem);
-      if (appState.history.length > 20) appState.history.pop();
-      
-      try {
-        localStorage.setItem('colorHistory', JSON.stringify(appState.history));
-      } catch (e) {
-        console.log('Could not save to localStorage');
-      }
-      
-      renderHistory();
-      showToast('💾 Color saved to history!', 'success');
-    }
-
-    function renderHistory() {
-      const historyContainer = document.getElementById('colorHistory');
-      if (!historyContainer) return;
-      
-      if (appState.history.length === 0) {
-        historyContainer.innerHTML = '<div class="text-gray-500 text-sm text-center py-4">No colors saved yet</div>';
-        return;
-      }
-      
-      historyContainer.innerHTML = '';
-      
-      appState.history.slice(0, 10).forEach((item, index) => {
-        const historyItem = document.createElement('div');
-        historyItem.className = 'color-history-item p-3 bg-white/50 rounded-lg flex items-center gap-3';
-        historyItem.innerHTML = `
-          <div class="w-8 h-8 rounded-lg shadow-sm" style="background: ${item.color}"></div>
-          <div class="flex-1 min-w-0">
-            <div class="font-semibold text-sm">${item.color}</div>
-            <div class="text-xs text-gray-500 truncate">${item.timestamp}</div>
-          </div>
-        `;
+      function mixColors() {
+        const base = hexToRgb(appState.baseColor);
+        const mix = hexToRgb(appState.mixColor);
         
-        historyItem.onclick = () => {
-          updateBaseColor(item.baseColor);
-          updateMixColor(item.mixColor);
-          setPercentage(item.percentage);
-          showToast('🎨 Color restored!', 'success');
+        if (!base || !mix) return;
+        
+        const ratio = appState.percentage / 100;
+        const result = {
+          r: Math.round((1 - ratio) * base.r + ratio * mix.r),
+          g: Math.round((1 - ratio) * base.g + ratio * mix.g),
+          b: Math.round((1 - ratio) * base.b + ratio * mix.b)
         };
-        
-        historyContainer.appendChild(historyItem);
-      });
-    }
 
-    function clearHistory() {
-      appState.history = [];
-      try {
-        localStorage.removeItem('colorHistory');
-      } catch (e) {
-        console.log('Could not clear localStorage');
+        const mixedHex = rgbToHex(result.r, result.g, result.b);
+        const mixedRgb = `rgb(${result.r}, ${result.g}, ${result.b})`;
+        const mixedHsl = `hsl(${rgbToHsl(result.r, result.g, result.b).h}, ${rgbToHsl(result.r, result.g, result.b).s}%, ${rgbToHsl(result.r, result.g, result.b).l}%)`;
+
+        document.getElementById('resultBox').style.backgroundColor = mixedHex;
+        document.getElementById('resultHex').textContent = mixedHex;
+        document.getElementById('hexCode').textContent = mixedHex;
+        document.getElementById('rgbCode').textContent = mixedRgb;
+        document.getElementById('hslCode').textContent = mixedHsl;
+        document.getElementById('percentageLabel').textContent = `${appState.percentage}%`;
+
+        return mixedHex;
       }
-      renderHistory();
-      showToast('🗑️ History cleared!', 'info');
-    }
 
-    // Action functions
-    function randomizeColors() {
-      const randomHex = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-      updateBaseColor(randomHex());
-      updateMixColor(randomHex());
-      setPercentage(Math.floor(Math.random() * 100));
-      showToast('🎲 Colors randomized!', 'success');
-    }
-
-    function invertColors() {
-      const invertHex = (hex) => {
-        const rgb = hexToRgb(hex);
-        if (!rgb) return hex;
-        return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b);
-      };
-      
-      updateBaseColor(invertHex(appState.baseColor));
-      updateMixColor(invertHex(appState.mixColor));
-      showToast('🔄 Colors inverted!', 'success');
-    }
-
-    function generatePalette() {
-      const base = hexToRgb(appState.baseColor);
-      if (!base) return;
-      
-      const variations = [];
-      
-      for (let i = 0; i < 5; i++) {
-        const factor = (i + 1) * 0.2;
-        const r = Math.round(base.r * factor);
-        const g = Math.round(base.g * factor);
-        const b = Math.round(base.b * factor);
-        variations.push(rgbToHex(r, g, b));
+      function updateBaseColor(color) {
+        if (isValidHex(color)) {
+          appState.baseColor = color;
+          document.getElementById('baseColorPicker').value = color;
+          document.getElementById('baseColorHex').value = color;
+          mixColors();
+        }
       }
-      
-      showToast('🎨 Palette generated! Check console for colors.', 'success');
-      console.log('Generated Palette:', variations);
-    }
 
-    // Utility functions
-    function copyToClipboard(type) {
-      const hexCode = document.getElementById('hexCode');
-      const rgbCode = document.getElementById('rgbCode');
-      
-      const text = type === 'hex' ? (hexCode ? hexCode.textContent : '') : (rgbCode ? rgbCode.textContent : '');
-      
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(`📋 ${type.toUpperCase()} copied to clipboard!`, 'success');
+      function updateMixColor(color) {
+        if (isValidHex(color)) {
+          appState.mixColor = color;
+          document.getElementById('customMixColor').value = color;
+          document.getElementById('customMixHex').value = color;
+          mixColors();
+        }
+      }
+
+      function setPercentage(value) {
+        appState.percentage = value;
+        document.getElementById('percentage').value = value;
+        mixColors();
+      }
+
+      function saveToHistory() {
+        const hexCode = document.getElementById('hexCode').textContent;
+        const historyItem = {
+          color: hexCode,
+          timestamp: new Date().toLocaleString(),
+          baseColor: appState.baseColor,
+          mixColor: appState.mixColor,
+          percentage: appState.percentage
+        };
+
+        appState.history.unshift(historyItem);
+        if (appState.history.length > 10) appState.history.pop();
+        renderHistory();
+        showToast('Color saved', 'success', 'fa-save');
+      }
+
+      function renderHistory() {
+        const historyContainer = document.getElementById('colorHistory');
+        if (appState.history.length === 0) {
+          historyContainer.innerHTML = '<div class="text-gray-500 text-sm text-center py-4">No colors saved</div>';
+          return;
+        }
+
+        historyContainer.innerHTML = '';
+        appState.history.forEach(item => {
+          const historyItem = document.createElement('div');
+          historyItem.className = 'flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer';
+          historyItem.innerHTML = `
+            <div class="w-8 h-8 rounded-md shadow-sm border" style="background: ${item.color}"></div>
+            <div class="flex-1">
+              <div class="font-medium text-sm text-gray-800">${item.color}</div>
+              <div class="text-xs text-gray-500">${item.timestamp}</div>
+            </div>
+          `;
+          historyItem.onclick = () => {
+            updateBaseColor(item.baseColor);
+            updateMixColor(item.mixColor);
+            setPercentage(item.percentage);
+            showToast('Color restored', 'success', 'fa-check-circle');
+          };
+          historyContainer.appendChild(historyItem);
+        });
+      }
+
+      function clearHistory() {
+        appState.history = [];
+        renderHistory();
+        showToast('History cleared', 'info', 'fa-trash');
+      }
+
+      function randomizeColors() {
+        const randomHex = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        updateBaseColor(randomHex());
+        updateMixColor(randomHex());
+        setPercentage(Math.floor(Math.random() * 100));
+        showToast('Colors randomized', 'success', 'fa-shuffle');
+      }
+
+      function resetColors() {
+        updateBaseColor('#ff6b6b');
+        updateMixColor('#ff0000');
+        setPercentage(25);
+        showToast('Colors reset', 'info', 'fa-undo');
+      }
+
+      function exportPalette() {
+        const base = hexToRgb(appState.baseColor);
+        if (!base) return;
+
+        const palette = [appState.baseColor];
+        for (let i = 1; i <= 4; i++) {
+          const factor = 1 - (i * 0.2);
+          const r = Math.round(base.r * factor);
+          const g = Math.round(base.g * factor);
+          const b = Math.round(base.b * factor);
+          palette.push(rgbToHex(r, g, b));
+        }
+
+        const paletteJson = JSON.stringify({ palette }, null, 2);
+        navigator.clipboard.writeText(paletteJson).then(() => {
+          showToast('Palette exported to clipboard', 'success', 'fa-download');
         }).catch(() => {
-          showToast('❌ Could not copy to clipboard', 'error');
-        });
-      } else {
-        showToast('❌ Clipboard not supported', 'error');
-      }
-    }
-
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastIcon = document.getElementById('toastIcon');
-      const toastMessage = document.getElementById('toastMessage');
-      
-      if (!toast || !toastIcon || !toastMessage) return;
-      
-      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
-      toastIcon.textContent = icons[type] || '✅';
-      toastMessage.textContent = message;
-      
-      toast.classList.remove('toast-hide');
-      toast.classList.add('toast-show');
-      
-      setTimeout(() => {
-        toast.classList.remove('toast-show');
-        toast.classList.add('toast-hide');
-      }, 3000);
-    }
-
-    function toggleHelp() {
-      showToast('💡 Tip: Use keyboard shortcuts! Space for random, R for reset, S to save.', 'info');
-    }
-
-    // Event Listeners
-    function setupEventListeners() {
-      // Base color inputs
-      const baseColorPicker = document.getElementById('baseColorPicker');
-      const baseColorHex = document.getElementById('baseColorHex');
-      
-      if (baseColorPicker) {
-        baseColorPicker.addEventListener('input', (e) => updateBaseColor(e.target.value));
-      }
-      
-      if (baseColorHex) {
-        baseColorHex.addEventListener('input', (e) => {
-          if (isValidHex(e.target.value)) {
-            updateBaseColor(e.target.value);
-          }
+          showToast('Failed to export', 'error', 'fa-exclamation-circle');
         });
       }
 
-      // Mix color inputs
-      const customMixColor = document.getElementById('customMixColor');
-      const customMixHex = document.getElementById('customMixHex');
-      
-      if (customMixColor) {
-        customMixColor.addEventListener('input', (e) => updateMixColor(e.target.value));
-      }
-      
-      if (customMixHex) {
-        customMixHex.addEventListener('input', (e) => {
-          if (isValidHex(e.target.value)) {
-            updateMixColor(e.target.value);
-          }
+      function copyToClipboard(type) {
+        const text = document.getElementById(`${type}Code`).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`${type.toUpperCase()} copied`, 'success', 'fa-copy');
+        }).catch(() => {
+          showToast('Failed to copy', 'error', 'fa-exclamation-circle');
         });
       }
 
-      // Percentage slider
-      const percentageSlider = document.getElementById('percentage');
-      if (percentageSlider) {
-        percentageSlider.addEventListener('input', (e) => {
+      function showToast(message, type, icon) {
+        const toast = document.getElementById('toast');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastMessage = document.getElementById('toastMessage');
+
+        const config = {
+          success: { class: 'bg-success', icon: icon || 'fa-check-circle' },
+          error: { class: 'bg-error', icon: icon || 'fa-exclamation-circle' },
+          info: { class: 'bg-primary', icon: icon || 'fa-info-circle' }
+        };
+
+        toast.className = `fixed bottom-6 left-6 ${config[type].class} bg-secondary text-dark px-6 py-3 rounded-lg shadow-lg toast opacity-100 translate-y-0`;
+        toastIcon.className = `fas ${config[type].icon}`;
+        toastMessage.textContent = message;
+
+        setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'translate-y-10');
+        }, 2000);
+      }
+
+      function setupEventListeners() {
+        document.getElementById('baseColorPicker').addEventListener('input', (e) => updateBaseColor(e.target.value));
+        document.getElementById('baseColorHex').addEventListener('input', (e) => {
+          if (isValidHex(e.target.value)) updateBaseColor(e.target.value);
+        });
+        document.getElementById('customMixColor').addEventListener('input', (e) => updateMixColor(e.target.value));
+        document.getElementById('customMixHex').addEventListener('input', (e) => {
+          if (isValidHex(e.target.value)) updateMixColor(e.target.value);
+        });
+        document.getElementById('percentage').addEventListener('input', (e) => {
           appState.percentage = parseInt(e.target.value);
           mixColors();
         });
+
+        document.querySelectorAll('[data-color]').forEach(swatch => {
+          swatch.addEventListener('click', () => {
+            updateBaseColor(swatch.dataset.color);
+            document.querySelectorAll('[data-color]').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+          });
+        });
+
+        document.querySelectorAll('[data-mix]').forEach(swatch => {
+          swatch.addEventListener('click', () => {
+            updateMixColor(swatch.dataset.mix);
+            document.querySelectorAll('[data-mix]').forEach(s => s.classList.remove('active'));
+            swatch.classList.add('active');
+          });
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.target.tagName === 'INPUT') return;
+          switch(e.key.toLowerCase()) {
+            case 'r': resetColors(); break;
+            case 's': saveToHistory(); break;
+            case 'c': copyToClipboard('hex'); break;
+            case 'e': exportPalette(); break;
+          }
+        });
       }
 
-      // Base color preset swatches
-      document.querySelectorAll('[data-color]').forEach(swatch => {
-        swatch.addEventListener('click', () => {
-          updateBaseColor(swatch.dataset.color);
-          // Remove active class from all base swatches
-          document.querySelectorAll('[data-color]').forEach(s => s.classList.remove('active'));
-          // Add active class to clicked swatch
-          swatch.classList.add('active');
-        });
-      });
+      function init() {
+        setupEventListeners();
+        renderHistory();
+        mixColors();
+        document.querySelector('[data-color="#ff6b6b"]').classList.add('active');
+        document.querySelector('[data-mix="#ff0000"]').classList.add('active');
+        showToast('Welcome to Color Mixer Pro', 'info', 'fa-info-circle');
+      }
 
-      // Mix color swatches
-      document.querySelectorAll('[data-mix]').forEach(swatch => {
-        swatch.addEventListener('click', () => {
-          updateMixColor(swatch.dataset.mix);
-          // Remove active class from all mix swatches
-          document.querySelectorAll('[data-mix]').forEach(s => s.classList.remove('active'));
-          // Add active class to clicked swatch
-          swatch.classList.add('active');
-        });
-      });
-
-      // Keyboard shortcuts
-      document.addEventListener('keydown', (e) => {
-        // Don't trigger shortcuts when typing in input fields
-        if (e.target.tagName === 'INPUT') return;
-        
-        switch(e.key.toLowerCase()) {
-          case ' ':
-            e.preventDefault();
-            randomizeColors();
-            break;
-          case 'r':
-            updateBaseColor('#ff6b6b');
-            updateMixColor('#ff0000');
-            setPercentage(25);
-            showToast('🔄 Reset to default colors!', 'info');
-            break;
-          case 's':
-            saveToHistory();
-            break;
-          case 'c':
-            copyToClipboard('hex');
-            break;
-          case 'i':
-            invertColors();
-            break;
-        }
-      });
-    }
-
-    // Initialize application
-    function init() {
-      console.log('Initializing Color Mixer Pro...');
-      
-      // Set up event listeners
-      setupEventListeners();
-      
-      // Render history
-      renderHistory();
-      
-      // Initial color mix
-      mixColors();
-      
-      // Set initial active states
-      const defaultBaseSwatch = document.querySelector('[data-color="#ff6b6b"]');
-      if (defaultBaseSwatch) defaultBaseSwatch.classList.add('active');
-      
-      const defaultMixSwatch = document.querySelector('[data-mix="#ff0000"]');
-      if (defaultMixSwatch) defaultMixSwatch.classList.add('active');
-      
-      // Show welcome message
-      setTimeout(() => {
-        showToast('🎨 Color Mixer Pro loaded successfully!', 'success');
-      }, 500);
-      
-      console.log('Color Mixer Pro initialized successfully!');
-    }
-
-    // Start the application when DOM is loaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  </script>
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    </script>
 </body>
 </html>
