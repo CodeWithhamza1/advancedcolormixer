@@ -10,24 +10,13 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
-    :root {
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --secondary: #f9fafb;
-      --accent: #14b8a6;
-      --success: #22c55e;
-      --error: #ef4444;
-      --text-dark: #111827;
-      --text-light: #6b7280;
-    }
-    
     * {
       font-family: 'Inter', sans-serif;
       box-sizing: border-box;
     }
     
     body {
-      background: #f3f4f6;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 1.5rem;
     }
@@ -35,176 +24,324 @@
     .card {
       background: white;
       border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       padding: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
     }
     
     .color-swatch {
       transition: all 0.2s ease;
       cursor: pointer;
       border-radius: 0.5rem;
-      border: 2px solid transparent;
+      border: 3px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .color-swatch::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .color-swatch:hover::before {
+      opacity: 1;
     }
     
     .color-swatch:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
     
     .color-swatch.active {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    }
-    
-    .preset-palette {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
-      gap: 0.5rem;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+      transform: scale(1.05);
     }
     
     .slider-modern {
       -webkit-appearance: none;
       appearance: none;
-      height: 0.5rem;
-      border-radius: 0.25rem;
-      background: #e5e7eb;
+      height: 0.75rem;
+      border-radius: 1rem;
+      background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
       outline: none;
+      position: relative;
     }
     
     .slider-modern::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.5rem;
+      height: 1.5rem;
       border-radius: 50%;
-      background: var(--primary);
+      background: white;
       cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 3px solid #3b82f6;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+    
+    .slider-modern::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
     }
     
     .slider-modern::-moz-range-thumb {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.5rem;
+      height: 1.5rem;
       border-radius: 50%;
-      background: var(--primary);
+      background: white;
       cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 3px solid #3b82f6;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
     }
     
     .btn {
-      background: var(--primary);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      transition: all 0.2s ease;
-      font-weight: 500;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      font-weight: 600;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .btn:hover::before {
+      opacity: 1;
     }
     
     .btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn > * {
+      position: relative;
+      z-index: 1;
     }
     
     .input-modern {
-      border: 1px solid #d1d5db;
-      border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
       transition: all 0.2s ease;
       width: 100%;
+      font-weight: 500;
     }
     
     .input-modern:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
       outline: none;
     }
     
     .result-display {
-      min-height: 10rem;
-      border-radius: 0.5rem 0.5rem 0 0;
+      min-height: 12rem;
+      border-radius: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.3s ease;
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .result-display::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.8; }
     }
     
     .fade-in {
-      animation: fadeIn 0.5s ease-out;
+      animation: fadeIn 0.6s ease-out;
     }
     
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
     .toast {
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1000;
+    }
+    
+    .contrast-checker {
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .harmony-swatch {
+      width: 100%;
+      aspect-ratio: 1;
       border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .harmony-swatch:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .color-preview {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.5rem;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .gradient-preview {
+      height: 4rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .gradient-preview:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .mode-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: 2px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    
+    .mode-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: #667eea;
     }
   </style>
 </head>
-<body class="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-5xl mx-auto">
+<body>
+  <div class="max-w-7xl mx-auto">
     <!-- Header -->
     <header class="text-center mb-8 fade-in">
-      <h1 class="text-3xl font-bold text-gray-800 mb-2">Color Mixer Pro</h1>
-      <p class="text-gray-600 text-base">Create and save custom colors with ease</p>
+      <h1 class="text-4xl font-bold text-white mb-2 drop-shadow-lg">🎨 Color Mixer Pro</h1>
+      <p class="text-white text-lg opacity-90">Advanced color mixing with harmony suggestions and accessibility tools</p>
     </header>
 
     <!-- Main Layout -->
     <div class="space-y-6">
+      <!-- Mixing Mode Selection -->
+      <div class="card fade-in">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-palette text-purple-600 mr-2 text-xl"></i>
+          <h2 class="text-xl font-bold text-gray-800">Mixing Mode</h2>
+        </div>
+        <div class="flex gap-3 flex-wrap">
+          <button class="mode-btn active" data-mode="blend" onclick="setMixMode('blend')">
+            <i class="fas fa-blender mr-2"></i>Blend
+          </button>
+          <button class="mode-btn" data-mode="overlay" onclick="setMixMode('overlay')">
+            <i class="fas fa-layer-group mr-2"></i>Overlay
+          </button>
+          <button class="mode-btn" data-mode="multiply" onclick="setMixMode('multiply')">
+            <i class="fas fa-times mr-2"></i>Multiply
+          </button>
+          <button class="mode-btn" data-mode="screen" onclick="setMixMode('screen')">
+            <i class="fas fa-sun mr-2"></i>Screen
+          </button>
+        </div>
+      </div>
+
       <!-- Color Selection -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Base Color -->
         <div class="card fade-in">
-          <div class="flex items-center mb-4">
-            <i class="fas fa-paint-brush text-primary mr-2"></i>
-            <h2 class="text-lg font-semibold text-gray-800">Base Color</h2>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <i class="fas fa-paint-brush text-purple-600 mr-2 text-xl"></i>
+              <h2 class="text-xl font-bold text-gray-800">Base Color</h2>
+            </div>
+            <div class="color-preview" id="basePreview" style="background: #ff6b6b"></div>
           </div>
           <div class="space-y-4">
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex gap-4">
               <input type="color" id="baseColorPicker" value="#ff6b6b" 
-                     class="w-14 h-14 rounded-md cursor-pointer border-none shadow-sm" 
-                     aria-label="Select base color" />
+                     class="w-16 h-16 rounded-lg cursor-pointer border-none shadow-lg" />
               <input type="text" id="baseColorHex" value="#ff6b6b" maxlength="7" 
-                     class="input-modern text-base" placeholder="#ff6b6b" 
-                     aria-label="Base color hex code" />
+                     class="input-modern text-lg font-mono" placeholder="#ff6b6b" />
             </div>
-            <div class="preset-palette">
-              <div class="color-swatch w-10 h-10 active" style="background: #ff6b6b" data-color="#ff6b6b"></div>
-              <div class="color-swatch w-10 h-10" style="background: #4ecdc4" data-color="#4ecdc4"></div>
-              <div class="color-swatch w-10 h-10" style="background: #45b7d1" data-color="#45b7d1"></div>
-              <div class="color-swatch w-10 h-10" style="background: #96ceb4" data-color="#96ceb4"></div>
+            <div class="grid grid-cols-6 gap-2">
+              <div class="color-swatch w-full aspect-square active" style="background: #ff6b6b" data-color="#ff6b6b"></div>
+              <div class="color-swatch w-full aspect-square" style="background: #4ecdc4" data-color="#4ecdc4"></div>
+              <div class="color-swatch w-full aspect-square" style="background: #45b7d1" data-color="#45b7d1"></div>
+              <div class="color-swatch w-full aspect-square" style="background: #96ceb4" data-color="#96ceb4"></div>
+              <div class="color-swatch w-full aspect-square" style="background: #ffeaa7" data-color="#ffeaa7"></div>
+              <div class="color-swatch w-full aspect-square" style="background: #fd79a8" data-color="#fd79a8"></div>
             </div>
           </div>
         </div>
 
         <!-- Mix Color -->
         <div class="card fade-in">
-          <div class="flex items-center mb-4">
-            <i class="fas fa-tint text-primary mr-2"></i>
-            <h2 class="text-lg font-semibold text-gray-800">Mix Color</h2>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <i class="fas fa-tint text-purple-600 mr-2 text-xl"></i>
+              <h2 class="text-xl font-bold text-gray-800">Mix Color</h2>
+            </div>
+            <div class="color-preview" id="mixPreview" style="background: #ff0000"></div>
           </div>
           <div class="space-y-4">
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex gap-4">
               <input type="color" id="customMixColor" value="#ff0000" 
-                     class="w-14 h-14 rounded-md cursor-pointer border-none shadow-sm" 
-                     aria-label="Select mix color" />
+                     class="w-16 h-16 rounded-lg cursor-pointer border-none shadow-lg" />
               <input type="text" id="customMixHex" value="#ff0000" maxlength="7" 
-                     class="input-modern text-base" placeholder="#ff0000" 
-                     aria-label="Mix color hex code" />
+                     class="input-modern text-lg font-mono" placeholder="#ff0000" />
             </div>
-            <div class="grid grid-cols-4 gap-2">
-              <button class="color-swatch h-10 active" style="background:#ff0000;" data-mix="#ff0000"></button>
-              <button class="color-swatch h-10" style="background:#00ff00;" data-mix="#00ff00"></button>
-              <button class="color-swatch h-10" style="background:#0000ff;" data-mix="#0000ff"></button>
-              <button class="color-swatch h-10" style="background:#ffffff;border:1px solid #d1d5db;" data-mix="#ffffff"></button>
+            <div class="grid grid-cols-6 gap-2">
+              <button class="color-swatch w-full aspect-square active" style="background:#ff0000;" data-mix="#ff0000"></button>
+              <button class="color-swatch w-full aspect-square" style="background:#00ff00;" data-mix="#00ff00"></button>
+              <button class="color-swatch w-full aspect-square" style="background:#0000ff;" data-mix="#0000ff"></button>
+              <button class="color-swatch w-full aspect-square" style="background:#ffff00;" data-mix="#ffff00"></button>
+              <button class="color-swatch w-full aspect-square" style="background:#ff00ff;" data-mix="#ff00ff"></button>
+              <button class="color-swatch w-full aspect-square" style="background:#ffffff;border:2px solid #ddd;" data-mix="#ffffff"></button>
             </div>
           </div>
         </div>
@@ -212,70 +349,108 @@
 
       <!-- Mixing Controls -->
       <div class="card fade-in">
-        <div class="flex items-center mb-4">
-          <i class="fas fa-sliders text-primary mr-2"></i>
-          <h2 class="text-lg font-semibold text-gray-800">Mixing Ratio</h2>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <i class="fas fa-sliders text-purple-600 mr-2 text-xl"></i>
+            <h2 class="text-xl font-bold text-gray-800">Mixing Ratio</h2>
+          </div>
+          <span id="percentageLabel" class="bg-gradient-to-r from-purple-500 to-purple-700 text-white px-4 py-2 rounded-full text-lg font-bold shadow-lg">25%</span>
         </div>
         <div class="space-y-4">
-          <div class="flex justify-between items-center">
-            <label class="text-sm font-medium text-gray-600">Blend Intensity</label>
-            <span id="percentageLabel" class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">25%</span>
-          </div>
           <input type="range" id="percentage" min="0" max="100" value="25" 
-                 class="slider-modern w-full" aria-label="Mix intensity slider" />
-          <div class="flex gap-3">
-            <button onclick="setPercentage(25)" class="btn flex-1">25%</button>
-            <button onclick="setPercentage(50)" class="btn flex-1">50%</button>
-            <button onclick="setPercentage(75)" class="btn flex-1">75%</button>
+                 class="slider-modern w-full" />
+          <div class="grid grid-cols-5 gap-3">
+            <button onclick="setPercentage(0)" class="btn text-sm">0%</button>
+            <button onclick="setPercentage(25)" class="btn text-sm">25%</button>
+            <button onclick="setPercentage(50)" class="btn text-sm">50%</button>
+            <button onclick="setPercentage(75)" class="btn text-sm">75%</button>
+            <button onclick="setPercentage(100)" class="btn text-sm">100%</button>
           </div>
         </div>
       </div>
 
-      <!-- Result and Actions -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Result and Features -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Result -->
-        <div class="md:col-span-2 card fade-in">
-          <div id="resultBox" class="result-display">
-            <div class="text-center">
-              <div id="resultHex" class="text-2xl font-bold text-white drop-shadow-md">#ff35b5</div>
-              <div class="text-gray-200 text-sm">Mixed Color</div>
+        <div class="lg:col-span-2 space-y-6">
+          <div class="card fade-in">
+            <div id="resultBox" class="result-display shadow-inner">
+              <div class="text-center relative z-10">
+                <div id="resultHex" class="text-4xl font-bold text-white drop-shadow-lg mb-2">#ff35b5</div>
+                <div class="text-white text-lg opacity-90 font-medium">Mixed Color Result</div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                  <div class="text-gray-600 text-sm font-semibold mb-1">HEX</div>
+                  <div id="hexCode" class="font-bold text-lg text-gray-800">#ff35b5</div>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                  <div class="text-gray-600 text-sm font-semibold mb-1">RGB</div>
+                  <div id="rgbCode" class="font-bold text-sm text-gray-800">rgb(255, 53, 181)</div>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                  <div class="text-gray-600 text-sm font-semibold mb-1">HSL</div>
+                  <div id="hslCode" class="font-bold text-sm text-gray-800">hsl(324, 100%, 60%)</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick="copyToClipboard('hex')" class="btn"><i class="fas fa-copy"></i> Copy HEX</button>
+                <button onclick="copyToClipboard('rgb')" class="btn"><i class="fas fa-code"></i> Copy RGB</button>
+                <button onclick="saveToHistory()" class="btn"><i class="fas fa-save"></i> Save Color</button>
+                <button onclick="addToCollection()" class="btn"><i class="fas fa-star"></i> Add to Favorites</button>
+              </div>
             </div>
           </div>
-          <div class="p-4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-              <div class="text-center">
-                <div class="text-gray-600 text-sm font-medium">HEX</div>
-                <div id="hexCode" class="font-bold text-base text-gray-800">#ff35b5</div>
-              </div>
-              <div class="text-center">
-                <div class="text-gray-600 text-sm font-medium">RGB</div>
-                <div id="rgbCode" class="font-bold text-base text-gray-800">rgb(255, 53, 181)</div>
-              </div>
-              <div class="text-center">
-                <div class="text-gray-600 text-sm font-medium">HSL</div>
-                <div id="hslCode" class="font-bold text-base text-gray-800">hsl(324, 100%, 60%)</div>
-              </div>
+
+          <!-- Gradient Generator -->
+          <div class="card fade-in">
+            <div class="flex items-center mb-4">
+              <i class="fas fa-gradient text-purple-600 mr-2 text-xl"></i>
+              <h2 class="text-xl font-bold text-gray-800">Gradient Generator</h2>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3">
-              <button onclick="copyToClipboard('hex')" class="btn"><i class="fas fa-copy"></i> Copy HEX</button>
-              <button onclick="copyToClipboard('rgb')" class="btn"><i class="fas fa-copy"></i> Copy RGB</button>
-              <button onclick="saveToHistory()" class="btn"><i class="fas fa-save"></i> Save Color</button>
+            <div class="space-y-3">
+              <div class="gradient-preview" id="gradient1" onclick="copyGradient('gradient1')"></div>
+              <div class="gradient-preview" id="gradient2" onclick="copyGradient('gradient2')"></div>
+              <div class="text-center text-sm text-gray-600 mt-2">
+                <i class="fas fa-info-circle mr-1"></i>Click gradient to copy CSS
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Actions and History -->
+        <!-- Sidebar Features -->
         <div class="space-y-6">
-          <!-- Actions -->
+          <!-- Quick Actions -->
           <div class="card fade-in">
             <div class="flex items-center mb-4">
-              <i class="fas fa-bolt text-primary mr-2"></i>
-              <h3 class="text-lg font-semibold text-gray-800">Actions</h3>
+              <i class="fas fa-bolt text-purple-600 mr-2 text-xl"></i>
+              <h3 class="text-xl font-bold text-gray-800">Quick Actions</h3>
             </div>
             <div class="space-y-3">
               <button onclick="randomizeColors()" class="btn w-full"><i class="fas fa-shuffle"></i> Random Colors</button>
-              <button onclick="resetColors()" class="btn w-full"><i class="fas fa-undo"></i> Reset Colors</button>
-              <button onclick="exportPalette()" class="btn w-full"><i class="fas fa-download"></i> Export Palette</button>
+              <button onclick="invertColors()" class="btn w-full"><i class="fas fa-exchange-alt"></i> Invert Colors</button>
+              <button onclick="resetColors()" class="btn w-full"><i class="fas fa-undo"></i> Reset</button>
+              <button onclick="exportPalette()" class="btn w-full"><i class="fas fa-download"></i> Export JSON</button>
+            </div>
+          </div>
+
+          <!-- Contrast Checker -->
+          <div class="card fade-in">
+            <div class="flex items-center mb-4">
+              <i class="fas fa-eye text-purple-600 mr-2 text-xl"></i>
+              <h3 class="text-xl font-bold text-gray-800">Accessibility</h3>
+            </div>
+            <div class="contrast-checker">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-gray-700">Contrast Ratio</span>
+                <span id="contrastRatio" class="text-lg font-bold text-purple-600">4.5:1</span>
+              </div>
+              <div class="flex gap-2">
+                <span id="wcagAA" class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">AA ✓</span>
+                <span id="wcagAAA" class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">AAA</span>
+              </div>
             </div>
           </div>
 
@@ -283,297 +458,490 @@
           <div class="card fade-in">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center">
-                <i class="fas fa-history text-primary mr-2"></i>
-                <h3 class="text-lg font-semibold text-gray-800">History</h3>
+                <i class="fas fa-history text-purple-600 mr-2 text-xl"></i>
+                <h3 class="text-xl font-bold text-gray-800">History</h3>
               </div>
-              <button onclick="clearHistory()" class="text-sm text-gray-500 hover:text-red-500"><i class="fas fa-trash"></i></button>
+              <button onclick="clearHistory()" class="text-sm text-gray-500 hover:text-red-500 transition-colors">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
-            <div id="colorHistory" class="space-y-2 max-h-40 overflow-y-auto">
-              <div class="text-gray-500 text-sm text-center py-4">No colors saved</div>
+            <div id="colorHistory" class="space-y-2 max-h-48 overflow-y-auto">
+              <div class="text-gray-500 text-sm text-center py-6">No colors saved yet</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Toast -->
-    <div id="toast" class="fixed bottom-6 left-6 bg-primary text-white px-6 py-3 rounded-lg shadow-lg toast opacity-0 translate-y-10">
-      <div class="flex items-center gap-2">
-        <i id="toastIcon" class="fas fa-check-circle"></i>
-        <span id="toastMessage">Color copied to clipboard!</span>
+      <!-- Color Harmony -->
+      <div class="card fade-in">
+        <div class="flex items-center mb-4">
+          <i class="fas fa-compass text-purple-600 mr-2 text-xl"></i>
+          <h2 class="text-xl font-bold text-gray-800">Color Harmony Suggestions</h2>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="harmonyContainer">
+          <!-- Harmony colors will be generated here -->
+        </div>
       </div>
     </div>
 
-    <script>
-      let appState = {
-        baseColor: '#ff6b6b',
-        mixColor: '#ff0000',
-        percentage: 25,
-        history: []
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-white text-gray-800 px-6 py-4 rounded-xl shadow-2xl toast opacity-0 translate-y-20 pointer-events-none">
+      <div class="flex items-center gap-3">
+        <i id="toastIcon" class="fas fa-check-circle text-2xl text-green-500"></i>
+        <span id="toastMessage" class="font-medium">Action completed!</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let appState = {
+      baseColor: '#ff6b6b',
+      mixColor: '#ff0000',
+      percentage: 25,
+      history: [],
+      favorites: [],
+      mixMode: 'blend'
+    };
+
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function rgbToHex(r, g, b) {
+      return "#" + [r, g, b].map(x => {
+        const hex = Math.round(Math.max(0, Math.min(255, x))).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      }).join('');
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function isValidHex(hex) {
+      return /^#([0-9A-F]{6})$/i.test(hex);
+    }
+
+    function blendMode(base, mix, ratio, mode) {
+      switch(mode) {
+        case 'overlay':
+          return {
+            r: base.r < 128 ? (2 * base.r * mix.r) / 255 : 255 - (2 * (255 - base.r) * (255 - mix.r)) / 255,
+            g: base.g < 128 ? (2 * base.g * mix.g) / 255 : 255 - (2 * (255 - base.g) * (255 - mix.g)) / 255,
+            b: base.b < 128 ? (2 * base.b * mix.b) / 255 : 255 - (2 * (255 - base.b) * (255 - mix.b)) / 255
+          };
+        case 'multiply':
+          return {
+            r: (base.r * mix.r) / 255,
+            g: (base.g * mix.g) / 255,
+            b: (base.b * mix.b) / 255
+          };
+        case 'screen':
+          return {
+            r: 255 - ((255 - base.r) * (255 - mix.r)) / 255,
+            g: 255 - ((255 - base.g) * (255 - mix.g)) / 255,
+            b: 255 - ((255 - base.b) * (255 - mix.b)) / 255
+          };
+        default: // blend
+          return {
+            r: (1 - ratio) * base.r + ratio * mix.r,
+            g: (1 - ratio) * base.g + ratio * mix.g,
+            b: (1 - ratio) * base.b + ratio * mix.b
+          };
+      }
+    }
+
+    function mixColors() {
+      const base = hexToRgb(appState.baseColor);
+      const mix = hexToRgb(appState.mixColor);
+      
+      if (!base || !mix) return;
+      
+      const ratio = appState.percentage / 100;
+      const result = blendMode(base, mix, ratio, appState.mixMode);
+
+      const mixedHex = rgbToHex(result.r, result.g, result.b);
+      const mixedRgb = `rgb(${Math.round(result.r)}, ${Math.round(result.g)}, ${Math.round(result.b)})`;
+      const hsl = rgbToHsl(result.r, result.g, result.b);
+      const mixedHsl = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+      document.getElementById('resultBox').style.backgroundColor = mixedHex;
+      document.getElementById('resultHex').textContent = mixedHex;
+      document.getElementById('hexCode').textContent = mixedHex;
+      document.getElementById('rgbCode').textContent = mixedRgb;
+      document.getElementById('hslCode').textContent = mixedHsl;
+      document.getElementById('percentageLabel').textContent = `${appState.percentage}%`;
+
+      updateGradients(mixedHex);
+      updateHarmony(mixedHex);
+      updateContrast(mixedHex);
+
+      return mixedHex;
+    }
+
+    function updateGradients(color) {
+      const base = hexToRgb(appState.baseColor);
+      const result = hexToRgb(color);
+      
+      document.getElementById('gradient1').style.background = 
+        `linear-gradient(135deg, ${appState.baseColor} 0%, ${color} 100%)`;
+      
+      document.getElementById('gradient2').style.background = 
+        `linear-gradient(to right, ${appState.baseColor}, ${color}, ${appState.mixColor})`;
+    }
+
+    function updateHarmony(color) {
+      const hsl = rgbToHsl(...Object.values(hexToRgb(color)));
+      const harmonies = {
+        'Complementary': (hsl.h + 180) % 360,
+        'Triadic 1': (hsl.h + 120) % 360,
+        'Triadic 2': (hsl.h + 240) % 360,
+        'Analogous 1': (hsl.h + 30) % 360,
+        'Analogous 2': (hsl.h - 30 + 360) % 360
       };
 
-      function hexToRgb(hex) {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-      }
-
-      function rgbToHex(r, g, b) {
-        return "#" + [r, g, b].map(x => {
-          const hex = Math.round(x).toString(16);
-          return hex.length === 1 ? "0" + hex : hex;
-        }).join('');
-      }
-
-      function rgbToHsl(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-
-        if (max === min) {
-          h = s = 0;
-        } else {
-          const d = max - min;
-          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-          switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-          }
-          h /= 6;
-        }
-        return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
-      }
-
-      function isValidHex(hex) {
-        return /^#([0-9A-F]{6})$/i.test(hex);
-      }
-
-      function mixColors() {
-        const base = hexToRgb(appState.baseColor);
-        const mix = hexToRgb(appState.mixColor);
+      const container = document.getElementById('harmonyContainer');
+      container.innerHTML = '';
+      
+      Object.entries(harmonies).forEach(([name, h]) => {
+        const harmonyColor = `hsl(${h}, ${hsl.s}%, ${hsl.l}%)`;
+        const rgb = hslToRgb(h, hsl.s, hsl.l);
+        const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
         
-        if (!base || !mix) return;
-        
-        const ratio = appState.percentage / 100;
-        const result = {
-          r: Math.round((1 - ratio) * base.r + ratio * mix.r),
-          g: Math.round((1 - ratio) * base.g + ratio * mix.g),
-          b: Math.round((1 - ratio) * base.b + ratio * mix.b)
-        };
+        const div = document.createElement('div');
+        div.className = 'text-center';
+        div.innerHTML = `
+          <div class="harmony-swatch shadow-lg" style="background: ${harmonyColor}" 
+               onclick="updateBaseColor('${hex}')" title="Click to use as base color"></div>
+          <div class="text-xs font-medium text-gray-600 mt-2">${name}</div>
+          <div class="text-xs text-gray-500 font-mono">${hex}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
 
-        const mixedHex = rgbToHex(result.r, result.g, result.b);
-        const mixedRgb = `rgb(${result.r}, ${result.g}, ${result.b})`;
-        const mixedHsl = `hsl(${rgbToHsl(result.r, result.g, result.b).h}, ${rgbToHsl(result.r, result.g, result.b).s}%, ${rgbToHsl(result.r, result.g, result.b).l}%)`;
+    function hslToRgb(h, s, l) {
+      s /= 100;
+      l /= 100;
+      const k = n => (n + h / 30) % 12;
+      const a = s * Math.min(l, 1 - l);
+      const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+      return {
+        r: Math.round(255 * f(0)),
+        g: Math.round(255 * f(8)),
+        b: Math.round(255 * f(4))
+      };
+    }
 
-        document.getElementById('resultBox').style.backgroundColor = mixedHex;
-        document.getElementById('resultHex').textContent = mixedHex;
-        document.getElementById('hexCode').textContent = mixedHex;
-        document.getElementById('rgbCode').textContent = mixedRgb;
-        document.getElementById('hslCode').textContent = mixedHsl;
-        document.getElementById('percentageLabel').textContent = `${appState.percentage}%`;
-
-        return mixedHex;
+    function updateContrast(color) {
+      const rgb = hexToRgb(color);
+      const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+      const whiteLum = 1;
+      const ratio = luminance > 0.5 
+        ? (whiteLum + 0.05) / (luminance + 0.05)
+        : (luminance + 0.05) / 0.05;
+      
+      document.getElementById('contrastRatio').textContent = ratio.toFixed(2) + ':1';
+      
+      const aaEl = document.getElementById('wcagAA');
+      const aaaEl = document.getElementById('wcagAAA');
+      
+      if (ratio >= 4.5) {
+        aaEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800';
+        aaEl.innerHTML = 'AA ✓';
+      } else {
+        aaEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800';
+        aaEl.innerHTML = 'AA ✗';
       }
-
-      function updateBaseColor(color) {
-        if (isValidHex(color)) {
-          appState.baseColor = color;
-          document.getElementById('baseColorPicker').value = color;
-          document.getElementById('baseColorHex').value = color;
-          mixColors();
-        }
+      
+      if (ratio >= 7) {
+        aaaEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800';
+        aaaEl.innerHTML = 'AAA ✓';
+      } else {
+        aaaEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600';
+        aaaEl.innerHTML = 'AAA ✗';
       }
+    }
 
-      function updateMixColor(color) {
-        if (isValidHex(color)) {
-          appState.mixColor = color;
-          document.getElementById('customMixColor').value = color;
-          document.getElementById('customMixHex').value = color;
-          mixColors();
-        }
-      }
+    function setMixMode(mode) {
+      appState.mixMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.mode === mode) btn.classList.add('active');
+      });
+      mixColors();
+      showToast(`Switched to ${mode} mode`, 'info', 'fa-palette');
+    }
 
-      function setPercentage(value) {
-        appState.percentage = value;
-        document.getElementById('percentage').value = value;
+    function updateBaseColor(color) {
+      if (isValidHex(color)) {
+        appState.baseColor = color;
+        document.getElementById('baseColorPicker').value = color;
+        document.getElementById('baseColorHex').value = color;
+        document.getElementById('basePreview').style.background = color;
         mixColors();
       }
+    }
 
-      function saveToHistory() {
-        const hexCode = document.getElementById('hexCode').textContent;
-        const historyItem = {
-          color: hexCode,
-          timestamp: new Date().toLocaleString(),
-          baseColor: appState.baseColor,
-          mixColor: appState.mixColor,
-          percentage: appState.percentage
+    function updateMixColor(color) {
+      if (isValidHex(color)) {
+        appState.mixColor = color;
+        document.getElementById('customMixColor').value = color;
+        document.getElementById('customMixHex').value = color;
+        document.getElementById('mixPreview').style.background = color;
+        mixColors();
+      }
+    }
+
+    function setPercentage(value) {
+      appState.percentage = value;
+      document.getElementById('percentage').value = value;
+      mixColors();
+    }
+
+    function saveToHistory() {
+      const hexCode = document.getElementById('hexCode').textContent;
+      const historyItem = {
+        color: hexCode,
+        timestamp: new Date().toLocaleString(),
+        baseColor: appState.baseColor,
+        mixColor: appState.mixColor,
+        percentage: appState.percentage,
+        mode: appState.mixMode
+      };
+
+      appState.history = appState.history.filter(item => item.color !== hexCode);
+      appState.history.unshift(historyItem);
+      if (appState.history.length > 15) appState.history.pop();
+      renderHistory();
+      showToast('Color saved to history', 'success', 'fa-save');
+    }
+
+    function addToCollection() {
+      const hexCode = document.getElementById('hexCode').textContent;
+      if (!appState.favorites.includes(hexCode)) {
+        appState.favorites.push(hexCode);
+        showToast('Added to favorites', 'success', 'fa-star');
+      } else {
+        showToast('Already in favorites', 'info', 'fa-info-circle');
+      }
+    }
+
+    function renderHistory() {
+      const historyContainer = document.getElementById('colorHistory');
+      if (appState.history.length === 0) {
+        historyContainer.innerHTML = '<div class="text-gray-500 text-sm text-center py-6">No colors saved yet</div>';
+        return;
+      }
+
+      historyContainer.innerHTML = '';
+      appState.history.forEach((item, index) => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 cursor-pointer transition-all group';
+        historyItem.innerHTML = `
+          <div class="w-12 h-12 rounded-lg shadow-md border-2 border-white group-hover:scale-110 transition-transform" 
+               style="background: ${item.color}"></div>
+          <div class="flex-1 min-w-0">
+            <div class="font-bold text-sm text-gray-800 font-mono">${item.color}</div>
+            <div class="text-xs text-gray-500 truncate">${item.timestamp}</div>
+          </div>
+          <i class="fas fa-arrow-right text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+        `;
+        historyItem.onclick = () => {
+          updateBaseColor(item.baseColor);
+          updateMixColor(item.mixColor);
+          setPercentage(item.percentage);
+          setMixMode(item.mode);
+          showToast('Color restored', 'success', 'fa-check-circle');
         };
+        historyContainer.appendChild(historyItem);
+      });
+    }
 
-        appState.history.unshift(historyItem);
-        if (appState.history.length > 10) appState.history.pop();
-        renderHistory();
-        showToast('Color saved', 'success', 'fa-save');
-      }
-
-      function renderHistory() {
-        const historyContainer = document.getElementById('colorHistory');
-        if (appState.history.length === 0) {
-          historyContainer.innerHTML = '<div class="text-gray-500 text-sm text-center py-4">No colors saved</div>';
-          return;
-        }
-
-        historyContainer.innerHTML = '';
-        appState.history.forEach(item => {
-          const historyItem = document.createElement('div');
-          historyItem.className = 'flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer';
-          historyItem.innerHTML = `
-            <div class="w-8 h-8 rounded-md shadow-sm border" style="background: ${item.color}"></div>
-            <div class="flex-1">
-              <div class="font-medium text-sm text-gray-800">${item.color}</div>
-              <div class="text-xs text-gray-500">${item.timestamp}</div>
-            </div>
-          `;
-          historyItem.onclick = () => {
-            updateBaseColor(item.baseColor);
-            updateMixColor(item.mixColor);
-            setPercentage(item.percentage);
-            showToast('Color restored', 'success', 'fa-check-circle');
-          };
-          historyContainer.appendChild(historyItem);
-        });
-      }
-
-      function clearHistory() {
+    function clearHistory() {
+      if (appState.history.length === 0) return;
+      if (confirm('Clear all history?')) {
         appState.history = [];
         renderHistory();
         showToast('History cleared', 'info', 'fa-trash');
       }
+    }
 
-      function randomizeColors() {
-        const randomHex = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-        updateBaseColor(randomHex());
-        updateMixColor(randomHex());
-        setPercentage(Math.floor(Math.random() * 100));
-        showToast('Colors randomized', 'success', 'fa-shuffle');
-      }
+    function randomizeColors() {
+      const randomHex = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      updateBaseColor(randomHex());
+      updateMixColor(randomHex());
+      setPercentage(Math.floor(Math.random() * 101));
+      showToast('Colors randomized', 'success', 'fa-shuffle');
+    }
 
-      function resetColors() {
-        updateBaseColor('#ff6b6b');
-        updateMixColor('#ff0000');
-        setPercentage(25);
-        showToast('Colors reset', 'info', 'fa-undo');
-      }
+    function invertColors() {
+      const base = hexToRgb(appState.baseColor);
+      const mix = hexToRgb(appState.mixColor);
+      const invertedBase = rgbToHex(255 - base.r, 255 - base.g, 255 - base.b);
+      const invertedMix = rgbToHex(255 - mix.r, 255 - mix.g, 255 - mix.b);
+      updateBaseColor(invertedBase);
+      updateMixColor(invertedMix);
+      showToast('Colors inverted', 'success', 'fa-exchange-alt');
+    }
 
-      function exportPalette() {
-        const base = hexToRgb(appState.baseColor);
-        if (!base) return;
+    function resetColors() {
+      updateBaseColor('#ff6b6b');
+      updateMixColor('#ff0000');
+      setPercentage(25);
+      setMixMode('blend');
+      showToast('Reset to defaults', 'info', 'fa-undo');
+    }
 
-        const palette = [appState.baseColor];
-        for (let i = 1; i <= 4; i++) {
-          const factor = 1 - (i * 0.2);
-          const r = Math.round(base.r * factor);
-          const g = Math.round(base.g * factor);
-          const b = Math.round(base.b * factor);
-          palette.push(rgbToHex(r, g, b));
-        }
+    function exportPalette() {
+      const mixed = document.getElementById('hexCode').textContent;
+      const base = hexToRgb(appState.baseColor);
+      
+      const palette = {
+        name: 'Color Mixer Palette',
+        colors: [appState.baseColor, mixed, appState.mixColor],
+        gradient1: document.getElementById('gradient1').style.background,
+        gradient2: document.getElementById('gradient2').style.background,
+        harmony: [],
+        timestamp: new Date().toISOString()
+      };
 
-        const paletteJson = JSON.stringify({ palette }, null, 2);
-        navigator.clipboard.writeText(paletteJson).then(() => {
-          showToast('Palette exported to clipboard', 'success', 'fa-download');
-        }).catch(() => {
-          showToast('Failed to export', 'error', 'fa-exclamation-circle');
-        });
-      }
+      const hsl = rgbToHsl(...Object.values(hexToRgb(mixed)));
+      [0, 30, 60, 120, 180, 240].forEach(offset => {
+        const h = (hsl.h + offset) % 360;
+        const rgb = hslToRgb(h, hsl.s, hsl.l);
+        palette.harmony.push(rgbToHex(rgb.r, rgb.g, rgb.b));
+      });
 
-      function copyToClipboard(type) {
-        const text = document.getElementById(`${type}Code`).textContent;
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(`${type.toUpperCase()} copied`, 'success', 'fa-copy');
-        }).catch(() => {
-          showToast('Failed to copy', 'error', 'fa-exclamation-circle');
-        });
-      }
+      const paletteJson = JSON.stringify(palette, null, 2);
+      navigator.clipboard.writeText(paletteJson).then(() => {
+        showToast('Palette JSON copied', 'success', 'fa-download');
+      }).catch(() => {
+        showToast('Failed to export', 'error', 'fa-exclamation-circle');
+      });
+    }
 
-      function showToast(message, type, icon) {
-        const toast = document.getElementById('toast');
-        const toastIcon = document.getElementById('toastIcon');
-        const toastMessage = document.getElementById('toastMessage');
+    function copyGradient(id) {
+      const gradient = document.getElementById(id).style.background;
+      const css = `background: ${gradient};`;
+      navigator.clipboard.writeText(css).then(() => {
+        showToast('Gradient CSS copied', 'success', 'fa-copy');
+      });
+    }
 
-        const config = {
-          success: { class: 'bg-success', icon: icon || 'fa-check-circle' },
-          error: { class: 'bg-error', icon: icon || 'fa-exclamation-circle' },
-          info: { class: 'bg-primary', icon: icon || 'fa-info-circle' }
-        };
+    function copyToClipboard(type) {
+      const text = document.getElementById(`${type}Code`).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`${type.toUpperCase()} copied`, 'success', 'fa-copy');
+      }).catch(() => {
+        showToast('Failed to copy', 'error', 'fa-exclamation-circle');
+      });
+    }
 
-        toast.className = `fixed bottom-6 left-6 ${config[type].class} bg-secondary text-dark px-6 py-3 rounded-lg shadow-lg toast opacity-100 translate-y-0`;
-        toastIcon.className = `fas ${config[type].icon}`;
-        toastMessage.textContent = message;
+    function showToast(message, type, icon) {
+      const toast = document.getElementById('toast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastMessage = document.getElementById('toastMessage');
 
-        setTimeout(() => {
-          toast.classList.remove('opacity-100', 'translate-y-0');
-          toast.classList.add('opacity-0', 'translate-y-10');
-        }, 2000);
-      }
+      const config = {
+        success: { icon: icon || 'fa-check-circle', color: 'text-green-500' },
+        error: { icon: icon || 'fa-exclamation-circle', color: 'text-red-500' },
+        info: { icon: icon || 'fa-info-circle', color: 'text-blue-500' }
+      };
 
-      function setupEventListeners() {
-        document.getElementById('baseColorPicker').addEventListener('input', (e) => updateBaseColor(e.target.value));
-        document.getElementById('baseColorHex').addEventListener('input', (e) => {
-          if (isValidHex(e.target.value)) updateBaseColor(e.target.value);
-        });
-        document.getElementById('customMixColor').addEventListener('input', (e) => updateMixColor(e.target.value));
-        document.getElementById('customMixHex').addEventListener('input', (e) => {
-          if (isValidHex(e.target.value)) updateMixColor(e.target.value);
-        });
-        document.getElementById('percentage').addEventListener('input', (e) => {
-          appState.percentage = parseInt(e.target.value);
-          mixColors();
-        });
+      toastIcon.className = `fas ${config[type].icon} text-2xl ${config[type].color}`;
+      toastMessage.textContent = message;
+      
+      toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
 
-        document.querySelectorAll('[data-color]').forEach(swatch => {
-          swatch.addEventListener('click', () => {
-            updateBaseColor(swatch.dataset.color);
-            document.querySelectorAll('[data-color]').forEach(s => s.classList.remove('active'));
-            swatch.classList.add('active');
-          });
-        });
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-20');
+        setTimeout(() => toast.classList.add('pointer-events-none'), 300);
+      }, 3000);
+    }
 
-        document.querySelectorAll('[data-mix]').forEach(swatch => {
-          swatch.addEventListener('click', () => {
-            updateMixColor(swatch.dataset.mix);
-            document.querySelectorAll('[data-mix]').forEach(s => s.classList.remove('active'));
-            swatch.classList.add('active');
-          });
-        });
-
-        document.addEventListener('keydown', (e) => {
-          if (e.target.tagName === 'INPUT') return;
-          switch(e.key.toLowerCase()) {
-            case 'r': resetColors(); break;
-            case 's': saveToHistory(); break;
-            case 'c': copyToClipboard('hex'); break;
-            case 'e': exportPalette(); break;
-          }
-        });
-      }
-
-      function init() {
-        setupEventListeners();
-        renderHistory();
+    function setupEventListeners() {
+      document.getElementById('baseColorPicker').addEventListener('input', (e) => updateBaseColor(e.target.value));
+      document.getElementById('baseColorHex').addEventListener('input', (e) => {
+        if (isValidHex(e.target.value)) updateBaseColor(e.target.value);
+      });
+      document.getElementById('customMixColor').addEventListener('input', (e) => updateMixColor(e.target.value));
+      document.getElementById('customMixHex').addEventListener('input', (e) => {
+        if (isValidHex(e.target.value)) updateMixColor(e.target.value);
+      });
+      document.getElementById('percentage').addEventListener('input', (e) => {
+        appState.percentage = parseInt(e.target.value);
         mixColors();
-        document.querySelector('[data-color="#ff6b6b"]').classList.add('active');
-        document.querySelector('[data-mix="#ff0000"]').classList.add('active');
-        showToast('Welcome to Color Mixer Pro', 'info', 'fa-info-circle');
-      }
+      });
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    </script>
+      document.querySelectorAll('[data-color]').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          updateBaseColor(swatch.dataset.color);
+          document.querySelectorAll('[data-color]').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('[data-mix]').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          updateMixColor(swatch.dataset.mix);
+          document.querySelectorAll('[data-mix]').forEach(s => s.classList.remove('active'));
+          swatch.classList.add('active');
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT') return;
+        switch(e.key.toLowerCase()) {
+          case 'r': resetColors(); break;
+          case 's': saveToHistory(); break;
+          case 'c': copyToClipboard('hex'); break;
+          case 'e': exportPalette(); break;
+          case 'i': invertColors(); break;
+          case 'f': addToCollection(); break;
+        }
+      });
+    }
+
+    function init() {
+      setupEventListeners();
+      renderHistory();
+      mixColors();
+      document.querySelector('[data-color="#ff6b6b"]').classList.add('active');
+      document.querySelector('[data-mix="#ff0000"]').classList.add('active');
+      setTimeout(() => {
+        showToast('Welcome to Color Mixer Pro', 'info', 'fa-palette');
+      }, 500);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
 </body>
 </html>
